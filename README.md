@@ -1,2 +1,9 @@
-# mc_server_scripts
-A small collection of scripts to automate minecraft server tasks
+# mc\_server\_scripts
+A couple of scripts written in Python to automate and make easier several
+aspects of running a Minecraft server.
+
+-----
+
+## Requirements:
+ - `Python3`
+ - `screen`
