@@ -2,11 +2,10 @@
 
 if __name__ == "__main__":
 
-    import subprocess
-    import os
+    import subprocess, os
     from time import sleep
 
-    screen_name = "minecraft_server"
+    screen_name = os.environ.get('MC_SCREEN_NAME')
     stuff_screen = "screen -S " + screen_name + " -X stuff "
 
     cmd_save = stuff_screen + "'save-all\n'"

@@ -2,14 +2,15 @@
 
 if __name__ == "__main__":
 
-    import subprocess
-    import os
+    import subprocess, os
     from time import sleep
+    from datetime import datetime
 
-    screen_name = "minecraft_server"
+    screen_name = os.environ.get('MC_SCREEN_NAME')
+    servers_dir = os.environ.get('MC_SERVERS_DIR')
+    server_name = os.environ.get('MC_SERVER_NAME')
 
-    # Be sure to populate with the actual path to the server directory:
-    server_loc = "PATH/TO/DIRECTORY/CONTAINING/THE/SERVER/"
+    server_loc = os.path.join(servers_dir, server_name)
     launch_command = "./LaunchServer.sh"
 
     daemonize_screen = "screen -dmS " + screen_name
@@ -23,27 +24,29 @@ if __name__ == "__main__":
 
 
     sleep(1)
-    print("It started up! Excellent news!\nHang on a sec.")
+    print("The script's up! Excellent news!\nLet's get this party started.")
     sleep(1)
-    print("Running command: " + bash_command)
+    print("Running command:\n" + bash_command)
+    print("This may take a few minutes. Be patient, please!")
     sleep(1)
     subprocess.Popen(['bash', '-c', bash_command])
-    sleep(1)
 
-
-    time_counter = 0
     finished = -1
+    time_counter = 0
     while finished == -1:
-        print("Waiting for server to be ready... (%ss)" % time_counter)
-        time_counter += 10
-        sleep(10)
+        sleep(0.25)
+        time_counter += 0.25
+
+        if time_counter % 10 == 0:
+            print("Waiting for server... (%ss)" % time_counter)
         
         with open(logfile, "r") as fh:
             data = fh.read()
-            finished = data.find("] [Server thread/INFO]: Done (")
+            now = datetime.now().strftime("%H:%M:%S")
+            finished = data.find("[" + now + "] [Server thread/INFO]: Done (")
 
 
-    print("Server running!")
+    print("Server's up and running!")
     sleep(1)
-    print("Process completed. Bye!")
-    sleep(2)
+    print("Have fun!")
+    sleep(4)
