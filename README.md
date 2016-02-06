@@ -68,5 +68,5 @@ before running the script. For example, my desktop shortcuts contain a line
 like this:
 
 ```
-EXEC sh -c "cd /home/tanner/scripts/mc_server_scripts; . env/bin/activate; ./start_server.py"
+EXEC=sh -c "cd /home/tanner/scripts/mc_server_scripts; . env/bin/activate; ./start_server.py"
 ```
