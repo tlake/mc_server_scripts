@@ -1,25 +1,72 @@
 # mc\_server\_scripts
-A couple of simple scripts written in Python to automate and make easier
-several aspects of running a Minecraft server. These were written for a setup
-that uses ATLauncher and only a single server, but they should be somewhat
-flexible for certain cases.
+A small, easy-to-manage collection of Python3 scripts that make starting,
+stopping, and backing up Minecraft servers a breeze. I'm a big fan of
+[ATLauncher](https://www.atlauncher.com/) so the scripts are by default
+tailored for an ATL-usage setup, but it should be easy enough to tweak
+them for your own use case.
 
-## Requirements:
- - `Python3`
- - `screen`
+## Setup:
+These scripts require the PyYaml package. Install it with:
+
+```
+pip install yaml
+```
+
+Minecraft servers are run in their own separate screen sessions. You
+can get screen with:
+
+```
+sudo apt-get install screen
+```
+
+Beyond that, the rest of setup really only requires that you customize
+the `config.yml` file to suit your system's architecture. Given an
+example directory tree like this one:
+
+```
+/home/
+└── <username>/
+    └── Desktop/
+        └── ATLauncher/
+            ├── Backups/
+            └── Servers/
+                ├── server_0/
+                │   │   LaunchServer.sh
+                │   │   other-files-and-folders
+                │   │   ...
+                ├── server_1/
+                │   │   LaunchServer.sh
+                │   │   other-files-and-folders
+                │   │   ...
+```
+
+The config file would look like this:
+
+```
+base_path: "/home/<username>/Desktop"
+atlauncher_dir: "ATlauncher"
+servers_dir: "Servers"
+backups_dir: "Backups"
+launch_command: "./LaunchServer.sh"
+
+servers:
+    - "server_1"
+    - "server_2"
+```
 
 ## To Use:
-You'll need to define a few environment variables for these scripts to work:
- - `export MC_SCREEN_NAME="some_title_for_a_screen_session"`
- - `export MC_SERVERS_DIR="/path/of/directory/containing/server/directory/"`
- - `export MC_SERVER_NAME="name_of_server_directory"`
- - `export MC_BACKUPS_DIR="/path/of/directory/containing/backups/"`
+Each script can be executed with Python itself:
 
-#### Make sure these variables are stored at least at the session level!
-I load them via the `.profile` file; otherwise, the
-scripts won't be able to see them (if, for instance, they're loaded
-though the `.bashrc` file).
+```
+python3 start_server.py
+```
 
-Additionally, the startup script assumes that you have a `LaunchServer.sh`
-file that starts up your server. This is the configuration that ATL uses,
-anyway. It's easy enough to change to something else.
+For even more ease of use, you can make desktop icons or shortcuts that
+execute these Python scripts just by clicking them. If you've put a virtualenv
+inside the project directory, make sure that your shortcut activates the env
+before running the script. For example, my desktop shortcuts contain a line
+like this:
+
+```
+EXEC sh -c "cd /home/tanner/scripts/mc_server_scripts; . env/bin/activate; ./start_server.py"
+```

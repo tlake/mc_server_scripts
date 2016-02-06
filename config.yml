@@ -1,0 +1,10 @@
+base_path: # /directory/to/ATL/container
+atlauncher_dir: # ATLauncher
+servers_dir: # Servers
+backups_dir: # Backups
+launch_command: # "./LaunchServer.sh"
+
+servers:
+    - # put the names of
+    - # server directories
+    - # on separate lines
